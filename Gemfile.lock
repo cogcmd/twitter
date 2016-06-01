@@ -1,0 +1,18 @@
+GIT
+  remote: git://github.com/cog-bundles/cog-rb.git
+  revision: 63b74a0dc683d1581224c268edb7f89bf82991af
+  specs:
+    cog-rb (0.1.5)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cog-rb!
+
+BUNDLED WITH
+   1.10.6

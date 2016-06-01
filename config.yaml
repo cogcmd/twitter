@@ -1,0 +1,15 @@
+---
+cog_bundle_version: 3
+name: twitter
+version: 0.0.1
+docker:
+  image: cogcmd/twitter
+  tag: 0.0.1
+permissions:
+  - twitter:tweet
+commands:
+  tweet:
+    executable: /home/bundle/cog-command
+    documentation: "twitter:tweet <message> - tweet as the configured user"
+    rules:
+      - 'when command is twitter:tweet must have twitter:tweet'
