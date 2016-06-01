@@ -12,9 +12,12 @@ WORKDIR /home/bundle
 COPY . /home/bundle
 RUN chmod +x /home/bundle/cog-command
 
-# Install Git, run Bundler, and uninstall Git to recover space
+# Install git and build tools, run Bundler, and uninstall git and the
+# tooling to recover space
 RUN apk add git && \
+    apk add build-base && \
     su bundle -c 'bundle install --path .bundle' && \
+    apk del build-base && \
     apk del git && \
     rm -f /var/cache/apk/*
 
