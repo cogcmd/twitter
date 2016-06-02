@@ -1,10 +1,10 @@
 ---
 cog_bundle_version: 3
 name: twitter
-version: 0.0.1
+version: 0.0.3
 docker:
   image: cogcmd/twitter
-  tag: 0.0.1
+  tag: 0.0.3
 permissions:
   - twitter:tweet
 commands:
@@ -13,3 +13,7 @@ commands:
     documentation: "twitter:tweet <message> - tweet as the configured user"
     rules:
       - 'when command is twitter:tweet must have twitter:tweet'
+templates:
+  tweet:
+    slack: '{{tweet_url}}'
+    hipchat: '{{tweet_url}}'
