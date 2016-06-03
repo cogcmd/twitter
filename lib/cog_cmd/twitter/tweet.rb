@@ -23,15 +23,13 @@ class CogCmd::Twitter::Tweet < Cog::Command
   # variable is not present.
   def user_credentials!(request)
     user = request.options["as"] ||
-           env_var("TWITTER_DEFAULT_ACCOUNT",
-                   failure_message: "No --as option given, and no TWITTER_DEFAULT_ACCOUNT specified")
+           env_var("TWITTER_DEFAULT_ACCOUNT") ||
+           fail("No --as option given, no default room user, and no TWITTER_DEFAULT_ACCOUNT specified")
 
-    user = user.upcase
-
-    {consumer_key: env_var("TWITTER_CONSUMER_KEY", suffix: user),
-     consumer_secret: env_var("TWITTER_CONSUMER_SECRET", suffix: user),
-     access_token: env_var("TWITTER_ACCESS_TOKEN", suffix: user),
-     access_token_secret: env_var("TWITTER_ACCESS_TOKEN_SECRET", suffix: user)}
+    {consumer_key:        env_var("TWITTER_CONSUMER_KEY",        suffix: user, required: true),
+     consumer_secret:     env_var("TWITTER_CONSUMER_SECRET",     suffix: user, required: true),
+     access_token:        env_var("TWITTER_ACCESS_TOKEN",        suffix: user, required: true),
+     access_token_secret: env_var("TWITTER_ACCESS_TOKEN_SECRET", suffix: user, required: true)}
   end
 
 
