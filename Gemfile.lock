@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/cog-bundles/cog-rb.git
-  revision: 63b74a0dc683d1581224c268edb7f89bf82991af
+  revision: d1ee1453dd21bffab6de8dc045a9862c488bc8b9
+  branch: cm/tweaks
   specs:
     cog-rb (0.1.5)
 

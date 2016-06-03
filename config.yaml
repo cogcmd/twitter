@@ -1,18 +1,93 @@
 ---
 cog_bundle_version: 3
 name: twitter
-version: 0.0.3
+version: 0.0.9
 docker:
   image: cogcmd/twitter
-  tag: 0.0.3
+  tag: 0.0.9
 permissions:
   - twitter:tweet
 commands:
   tweet:
     executable: /home/bundle/cog-command
-    documentation: "twitter:tweet <message> - tweet as the configured user"
+    documentation: |
+      twitter:tweet <message> - tweet using the default Twitter account
+      twitter:tweet --as=account <message> - tweet using the specified Twitter account
+
+      Returns a JSON map with the following keys:
+
+      - tweet_text: The body of the tweet
+      - tweet_url: The URL for the tweet
+      - account_name: The Twitter screen name of the account that
+                      sent the tweet, without the leading "@" sign.
+
+      Behavior is configured by the following environment variables:
+
+          TWITTER_CONSUMER_KEY_<ACCOUNT>
+          TWITTER_CONSUMER_SECRET_<ACCOUNT>
+          TWITTER_ACCESS_TOKEN_<ACCOUNT>
+          TWITTER_ACCESS_TOKEN_SECRET_<ACCOUNT>
+
+          TWITTER_DEFAULT_ACCOUNT
+
+      where <ACCOUNT> is either the value of the supplied `--as` option,
+      or the value of the environment variable TWITTER_DEFAULT_ACCOUNT.
+      Note that the value does not need to be the literal Twitter
+      account name, just a common tag to associate a group of
+      credentials together.
+
+      For example, say you have both @MyCompanyStatus and
+      @MyCompanyNews Twitter accounts, and you would like to configure
+      Cog to tweet from either account. Once you've obtained the
+      necessary API credentials from Twitter for each account, you
+      could create a dynamic configuration YAML file like this:
+
+          ---
+          TWITTER_CONSUMER_KEY_STATUS: <consumer key for @MyCompanyStatus>
+          TWITTER_CONSUMER_SECRET_STATUS: <etc>
+          TWITTER_ACCESS_TOKEN_STATUS: <etc>
+          TWITTER_ACCESS_TOKEN_SECRET_STATUS: <etc>
+
+          TWITTER_CONSUMER_KEY_NEWS: <consumer key for @MyCompanyNews>
+          TWITTER_CONSUMER_SECRET_NEWS: <etc>
+          TWITTER_ACCESS_TOKEN_NEWS: <etc>
+          TWITTER_ACCESS_TOKEN_SECRET_NEWS: <etc>
+
+          TWITTER_DEFAULT_ACCOUNT: STATUS
+
+      (See http://docs.operable.io/docs/dynamic-command-configuration
+      for further details.)
+
+      Here we have set @MyCompanyStatus as the default account, so
+      when you execute
+
+          twitter:tweet "Everything is running fine"
+
+      @MyCompanyStatus will tweet that message. On the other hand, if
+      you want to tweet some news, you would execute
+
+          twitter:tweet --as=news "We just released version 1.0.0!"
+
+      which will use the @MyCompanyNews account.
+
+      You do not have to set TWITTER_DEFAULT_ACCOUNT, in which case
+      you will always need to explicitly declare who you're tweeting
+      as, using the suffix for the credential environment variables
+      you want.
+
+      The value specified for the `--as` option will be uppercased in
+      order to find the appropriate environment variables. Thus
+      `--as=news`, `--as=NEWS`, and `--as=NeWs` are all
+      equivalent. The environment variable names, however, must be
+      completely capitalized.
+
     rules:
       - 'when command is twitter:tweet must have twitter:tweet'
+    options:
+      as:
+        type: string
+        required: false
+        short_flag: a
 templates:
   tweet:
     slack: '{{tweet_url}}'
