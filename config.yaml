@@ -1,6 +1,7 @@
 ---
 cog_bundle_version: 3
 name: twitter
+description: Interact with Twitter
 version: 0.0.10
 docker:
   image: cogcmd/twitter
@@ -9,6 +10,7 @@ permissions:
   - twitter:tweet
 commands:
   tweet:
+    description: Tweet from one or more accounts
     executable: /home/bundle/cog-command
     documentation: |
       twitter:tweet <message> - tweet using the default Twitter account
