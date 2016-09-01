@@ -31,7 +31,7 @@ support Twitter account.
 
 # Installing
 
-    curl -O https://github.com/cog-bundles/twitter/blob/master/config.yaml
+    curl -O https://raw.githubusercontent.com/cogcmd/twitter/master/config.yaml
     cogctl bundle install config.yaml
 
 # Building
