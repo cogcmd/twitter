@@ -1,21 +1,25 @@
 ---
-cog_bundle_version: 3
+cog_bundle_version: 4
 name: twitter
 description: Interact with Twitter
-version: 0.0.10
+author: Operable <support@operable.io>
+homepage: https://github.com/cogcmd/twitter
+version: 0.0.11
 docker:
   image: cogcmd/twitter
-  tag: 0.0.10
+  tag: 0.0.11
 permissions:
   - twitter:tweet
 commands:
   tweet:
     description: Tweet from one or more accounts
     executable: /home/bundle/cog-command
-    documentation: |
-      twitter:tweet <message> - tweet using the default Twitter account
-      twitter:tweet --as=account <message> - tweet using the specified Twitter account
+    arguments: "<message>"
+    examples: |
+      twitter:tweet "Everything is running fine"
 
+      twitter:tweet --as=news "We just released version 1.0.0!"
+    notes: |
       Returns a JSON map with the following keys:
 
       - tweet_text: The body of the tweet
@@ -90,7 +94,7 @@ commands:
         type: string
         required: false
         short_flag: a
+        description: the account to tweet as; see NOTES
 templates:
   tweet:
-    slack: '{{tweet_url}}'
-    hipchat: '{{tweet_url}}'
+    body: '~each var=$results~~$item.tweet_url~~end~'
