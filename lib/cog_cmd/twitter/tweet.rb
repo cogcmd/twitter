@@ -15,6 +15,8 @@ class CogCmd::Twitter::Tweet < Cog::Command
                            "account_name" => tweet.user.screen_name}
     rescue Twitter::Error::Unauthorized
       fail("Could not authenticate; check your credentials.")
+    rescue Twitter::Error::Forbidden => ex
+      fail(ex.message)
     end
   end
 
