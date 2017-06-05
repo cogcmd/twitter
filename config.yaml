@@ -4,10 +4,10 @@ name: twitter
 description: Interact with Twitter
 author: Operable <support@operable.io>
 homepage: https://github.com/cogcmd/twitter
-version: 0.0.11
+version: 0.0.12
 docker:
   image: cogcmd/twitter
-  tag: 0.0.11
+  tag: 0.0.12
 permissions:
   - twitter:tweet
 commands:
